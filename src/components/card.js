@@ -1,4 +1,55 @@
+import axios from "axios";
+
 const Card = (article) => {
+
+  const mainDiv = document.createElement('div');
+  mainDiv.classList.add("card");
+
+  const headline = document.createElement('div');
+  headline.classList.add("headline");
+  headline.textContent = article.headline;
+    
+
+  const authorDiv = document.createElement('div');
+  authorDiv.classList.add('author');
+        
+
+  const imgContainer = document.createElement('div');
+  imgContainer.classList.add('img-container');
+        
+
+  const image = document.createElement('img');
+  image.src = article.authorPhoto;
+
+
+  const span = document.createElement('span');
+  span.textContent = `By ${article.authorName}`;
+
+
+  //adding the event listener
+  mainDiv.addEventListener("click", ()=> {
+    console.log(headline);
+  });
+
+
+  //hierarcy
+  mainDiv.appendChild(headline);
+  mainDiv.appendChild(authorDiv);
+  authorDiv.appendChild(imgContainer);
+  imgContainer.appendChild(image);
+  authorDiv.appendChild(span);
+
+        
+  return mainDiv;
+  
+      
+    
+    
+      
+
+  // return mainDiv;
+
+
   // TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
@@ -20,6 +71,30 @@ const Card = (article) => {
 }
 
 const cardAppender = (selector) => {
+
+  const headerParent = document.querySelector(selector);
+
+  axios.get(`http://localhost:5001/api/articles`)
+  .then((res) => {
+    res.data.articles.javascript.forEach((element)=> {
+      headerParent.appendChild(Card(element));
+    })
+    res.data.articles.bootstrap.forEach((element)=> {
+      headerParent.appendChild(Card(element));
+    })
+    res.data.articles.technology.forEach((element)=> {
+      headerParent.appendChild(Card(element));
+    })
+    res.data.articles.jquery.forEach((element)=> {
+      headerParent.appendChild(Card(element));
+    })
+    res.data.articles.node.forEach((element)=> {
+      headerParent.appendChild(Card(element));
+    })
+  })
+
+  return headerParent;
+
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
